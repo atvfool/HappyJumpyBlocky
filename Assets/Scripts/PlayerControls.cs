@@ -21,11 +21,13 @@ public class PlayerControls : MonoBehaviour
     
     private Rigidbody2D rb;
     private SpriteRenderer sr;
+    private Animator anim;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
 
         width = GetComponent<Collider2D>().bounds.extents.x + 0.1f;
         height = GetComponent<Collider2D>().bounds.extents.y + 0.2f;
@@ -50,10 +52,15 @@ public class PlayerControls : MonoBehaviour
 
         if(IsOnGround() && !isJumping)
         {
-            if(vertMove > 0)
+            anim.SetBool("isJumping", false);
+            if (vertMove > 0)
             {
                 isJumping = true;
             }
+        }
+        else
+        {
+            anim.SetBool("isJumping", true);
         }
 
         if(jumpButtonPressTime > maxJumpTime)
@@ -75,6 +82,9 @@ public class PlayerControls : MonoBehaviour
             isJumping = false;
             jumpButtonPressTime = 0;
         }
+        
+        
+        
     }
     
     void FlipSprite()
