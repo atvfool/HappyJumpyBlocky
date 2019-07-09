@@ -2,14 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
 
 public class PlayerControls : MonoBehaviour
 {
+    public Joystick joystick;
+    public JumpScript jumpButton;
     public float speed = 30;
     public float jumpSpeed = 5;
     public bool facingRight = true;
 
     bool isJumping = false;
+
+    bool isJumpingPressed = false;
 
     private float rayCastLength = 0.005f;
 
@@ -36,7 +42,7 @@ public class PlayerControls : MonoBehaviour
 
     void FixedUpdate()
     {
-        float horzMove = Input.GetAxisRaw("Horizontal");
+        float horzMove = Input.GetAxisRaw("Horizontal") == 0 ? joystick.Horizontal: Input.GetAxisRaw("Horizontal");
         Vector2 vect = rb.velocity;
 
         rb.velocity = new Vector2(horzMove * speed, vect.y);
@@ -48,7 +54,13 @@ public class PlayerControls : MonoBehaviour
         {
             FlipSprite();
         }
-        float vertMove = Input.GetAxis("Jump");
+        float vertMove = jumpButton.IsBtnPressed() ? 1 : Input.GetAxis("Jump");
+
+        if(Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            
+        }
 
         if(IsOnGround() && !isJumping)
         {
@@ -82,8 +94,8 @@ public class PlayerControls : MonoBehaviour
             isJumping = false;
             jumpButtonPressTime = 0;
         }
-        
-        
+
+        isJumpingPressed = false;
         
     }
     
@@ -119,10 +131,19 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
+    public void jumpButton_OnClick()
+    {
+        isJumpingPressed = true;
+    }
+
+
+
     void OnBecameInvisible()
     {
         Debug.Log("Character Destroyed");
         Destroy(gameObject);
         SceneManager.LoadScene("GameOver");
     }
+
+    
 }
