@@ -29,6 +29,8 @@ public class PlayerControls : MonoBehaviour
     private SpriteRenderer sr;
     private Animator anim;
 
+    private bool LevelComplete = false;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -135,15 +137,25 @@ public class PlayerControls : MonoBehaviour
     {
         isJumpingPressed = true;
     }
-
-
-
+    
     void OnBecameInvisible()
     {
-        Debug.Log("Character Destroyed");
-        Destroy(gameObject);
-        SceneManager.LoadScene("GameOver");
+        // Check that game isn't paused
+        if(!PauseMenu.GameIsPaused && !LevelComplete)
+        {
+            Debug.Log("Character Destroyed");
+            Destroy(gameObject);
+            SceneManager.LoadScene("GameOver");
+        }
     }
 
-    
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.collider.tag.Contains("Finish"))
+        {
+            LevelComplete = true;
+            (new LevelSelect()).SelectLevel(PlayerPrefs.GetString("NextLevel"));
+        }
+    }
+
 }

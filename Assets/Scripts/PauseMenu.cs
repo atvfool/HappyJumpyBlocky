@@ -38,6 +38,14 @@ public class PauseMenu : MonoBehaviour
         GameIsPaused = true;
     }
 
+    public void TogglePause()
+    {
+        if (GameIsPaused)
+            Resume();
+        else
+            Pause();
+    }
+
     public void LoadMenu()
     {
         Time.timeScale = 1f;
@@ -46,7 +54,7 @@ public class PauseMenu : MonoBehaviour
 
     public void QuitGame()
     {
-        Debug.Log("Quitting Game");
-        Application.Quit();
+        Time.timeScale = 1f;
+        UnityEngine.SceneManagement.SceneManager.LoadScene("LevelSelect");
     }
 }

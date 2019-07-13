@@ -34,6 +34,6 @@ public class StartGame : MonoBehaviour
 
     void btnStartGame_OnClick()
     {
-        SceneManager.LoadScene("TheFirstLevel");
+        SceneManager.LoadScene("LevelSelect");
     }
 }
