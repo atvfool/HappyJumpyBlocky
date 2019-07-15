@@ -7,8 +7,9 @@ using UnityEngine.UI;
 
 public class PlayerControls : MonoBehaviour
 {
-    public Joystick joystick;
-    public JumpScript jumpButton;
+    public CButton jumpButton;
+    public CButton leftButton;
+    public CButton rightButton;
     public float speed = 30;
     public float jumpSpeed = 5;
     public bool facingRight = true;
@@ -44,7 +45,7 @@ public class PlayerControls : MonoBehaviour
 
     void FixedUpdate()
     {
-        float horzMove = Input.GetAxisRaw("Horizontal") == 0 ? joystick.Horizontal: Input.GetAxisRaw("Horizontal");
+        float horzMove = getHorizontalInput();
         Vector2 vect = rb.velocity;
 
         rb.velocity = new Vector2(horzMove * speed, vect.y);
@@ -114,16 +115,8 @@ public class PlayerControls : MonoBehaviour
         bool groundCheck1 = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - height), -Vector2.up, rayCastLength); // Below Character
         bool groundCheck2 = Physics2D.Raycast(new Vector2(transform.position.x - (width), transform.position.y-height), -Vector2.right, rayCastLength); // To bottom left Of Character
         bool groundCheck3 = Physics2D.Raycast(new Vector2(transform.position.x + (width), transform.position.y-height), Vector2.right, rayCastLength); // To bottom Right of Character
-
-        bool leftWallCheck1 = Physics2D.Raycast(new Vector2(transform.position.x - (width), transform.position.y), -Vector2.right, rayCastLength); // To middle left Of Character
-        bool leftWallCheck2 = Physics2D.Raycast(new Vector2(transform.position.x - (width), transform.position.y+height), -Vector2.right, rayCastLength); // To top left Of Character
-
-        bool rightWallCheck1 = Physics2D.Raycast(new Vector2(transform.position.x + (width), transform.position.y), Vector2.right, rayCastLength); // To Right of Character
-        bool rightWallCheck2 = Physics2D.Raycast(new Vector2(transform.position.x + (width), transform.position.y+height), Vector2.right, rayCastLength); // To top Right of Character
-
-        if (groundCheck1 || groundCheck2 || groundCheck3 || 
-            leftWallCheck1 || leftWallCheck2 || 
-            rightWallCheck1 || rightWallCheck2)
+        
+        if (groundCheck1 || groundCheck2 || groundCheck3)
         {
             return true;
         }
@@ -131,6 +124,18 @@ public class PlayerControls : MonoBehaviour
         {
             return false;
         }
+    }
+
+    int getHorizontalInput()
+    {
+        int direction = 0;
+
+        if (leftButton.IsBtnPressed())
+            direction = -1;
+        else if (rightButton.IsBtnPressed())
+            direction = 1;
+
+        return direction;
     }
 
     public void jumpButton_OnClick()
@@ -143,9 +148,7 @@ public class PlayerControls : MonoBehaviour
         // Check that game isn't paused
         if(!PauseMenu.GameIsPaused && !LevelComplete)
         {
-            Debug.Log("Character Destroyed");
-            Destroy(gameObject);
-            SceneManager.LoadScene("GameOver");
+            HurtPlayer();
         }
     }
 
@@ -155,7 +158,17 @@ public class PlayerControls : MonoBehaviour
         {
             LevelComplete = true;
             (new LevelSelect()).SelectLevel(PlayerPrefs.GetString("NextLevel"));
+        }else if(collision.collider.tag.Contains("Enemy"))
+        {
+            HurtPlayer();
         }
+    }
+
+    void HurtPlayer()
+    {
+        Debug.Log("Character Destroyed");
+        Destroy(gameObject);
+        SceneManager.LoadScene("GameOver");
     }
 
 }
