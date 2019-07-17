@@ -157,6 +157,7 @@ public class PlayerControls : MonoBehaviour
         if(collision.collider.tag.Contains("Finish"))
         {
             LevelComplete = true;
+            SaveManager.SaveProgress(PlayerPrefs.GetString("NextLevel"));
             (new LevelSelect()).SelectLevel(PlayerPrefs.GetString("NextLevel"));
         }else if(collision.collider.tag.Contains("Enemy"))
         {

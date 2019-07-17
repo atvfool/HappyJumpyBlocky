@@ -10,7 +10,18 @@ public class LevelSelect : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        SaveData sd = SaveManager.LoadProgress();
+
+        for(int i = 0; i < gameObject.transform.childCount; i++)
+        {
+            Transform child = gameObject.transform.GetChild(i);
+            Debug.Log(child.name);
+            if(sd.lstLevelsComplete.Contains(child.name))
+            {
+                child.gameObject.SetActive(true);
+            }
+        }
+            
     }
 
     // Update is called once per frame
