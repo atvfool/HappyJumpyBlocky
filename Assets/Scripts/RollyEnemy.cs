@@ -7,7 +7,6 @@ public class RollyEnemy : MonoBehaviour
     public float rollForce = 3.5f;
     public float forceInterval = 1f;
     public float startDelay = 1f;
-    public GameObject target;
     public bool rollLeft = true;
 
     Rigidbody2D rb;
@@ -31,14 +30,7 @@ public class RollyEnemy : MonoBehaviour
         if (Time.time > nextForce)
         {
             nextForce = Time.time + forceInterval;
-            if (target == null)
-            {
-                rb.AddForce((rollLeft ? Vector2.left : Vector2.right) * rollForce, ForceMode2D.Impulse);
-            }
-            else
-            {
-
-            }
+            rb.AddForce((rollLeft ? Vector2.left : Vector2.right) * rollForce, ForceMode2D.Impulse);
         }
     }
 

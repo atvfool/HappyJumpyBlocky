@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class LevelSelect : MonoBehaviour
 {
-    public int MaxLevels = 2;
+    public int MaxLevels = 5;
 
     // Start is called before the first frame update
     void Start()

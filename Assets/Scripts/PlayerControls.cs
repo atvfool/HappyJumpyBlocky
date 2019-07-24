@@ -18,7 +18,7 @@ public class PlayerControls : MonoBehaviour
 
     bool isJumpingPressed = false;
 
-    private float rayCastLength = 0.005f;
+    private float rayCastLength = 0.2f;
 
     private float width;
     private float height;
@@ -34,6 +34,8 @@ public class PlayerControls : MonoBehaviour
 
     private void Awake()
     {
+
+
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
@@ -112,11 +114,17 @@ public class PlayerControls : MonoBehaviour
 
     public bool IsOnGround()
     {
-        bool groundCheck1 = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - height), -Vector2.up, rayCastLength); // Below Character
-        bool groundCheck2 = Physics2D.Raycast(new Vector2(transform.position.x - (width), transform.position.y-height), -Vector2.right, rayCastLength); // To bottom left Of Character
-        bool groundCheck3 = Physics2D.Raycast(new Vector2(transform.position.x + (width), transform.position.y-height), Vector2.right, rayCastLength); // To bottom Right of Character
-        
-        if (groundCheck1 || groundCheck2 || groundCheck3)
+        RaycastHit2D groundCheck1 = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y-(height*0.75f)), -Vector2.up, rayCastLength); // Below Character
+        RaycastHit2D groundCheck2 = Physics2D.Raycast(new Vector2(transform.position.x - (width), transform.position.y - (height * 0.75f)), Vector2.right, rayCastLength); // To bottom left Of Character
+        RaycastHit2D groundCheck3 = Physics2D.Raycast(new Vector2(transform.position.x + (width), transform.position.y - (height * 0.75f)), -Vector2.right, rayCastLength); // To bottom Right of Character
+
+        //Debug.DrawRay(new Vector2(transform.position.x, transform.position.y-(height  *0.75f)), -Vector2.up * rayCastLength, Color.green);
+        //Debug.DrawRay(new Vector2(transform.position.x - (width), transform.position.y - (height * 0.75f)), Vector2.right * rayCastLength, Color.green);
+        //Debug.DrawRay(new Vector2(transform.position.x + (width), transform.position.y - (height * 0.75f)), -Vector2.right * rayCastLength, Color.green);
+
+        if ((groundCheck1.collider != null && groundCheck1.collider.tag.Contains("Ground")) 
+            || (groundCheck2.collider != null && groundCheck2.collider.tag.Contains("Ground")) 
+            || (groundCheck3.collider != null && groundCheck3.collider.tag.Contains("Ground")))
         {
             return true;
         }
@@ -130,10 +138,18 @@ public class PlayerControls : MonoBehaviour
     {
         int direction = 0;
 
-        if (leftButton.IsBtnPressed())
-            direction = -1;
-        else if (rightButton.IsBtnPressed())
-            direction = 1;
+#if UNITY_EDITOR
+        direction = (int)Input.GetAxisRaw("Horizontal");
+#endif
+
+        if (direction == 0)
+        {
+            if (leftButton.IsBtnPressed())
+                direction = -1;
+            else if (rightButton.IsBtnPressed())
+                direction = 1;
+        }
+        
 
         return direction;
     }
@@ -165,11 +181,26 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag.Contains("Finish"))
+        {
+            Debug.Log("Level Complete:" + PlayerPrefs.GetString("CurrentLevel"));
+            Debug.Log("Next Level:" + PlayerPrefs.GetString("NextLevel"));
+            LevelComplete = true;
+            SaveManager.SaveProgress(PlayerPrefs.GetString("NextLevel"));
+            (new LevelSelect()).SelectLevel(PlayerPrefs.GetString("NextLevel"));
+        }
+    }
+
     void HurtPlayer()
     {
-        Debug.Log("Character Destroyed");
-        Destroy(gameObject);
-        SceneManager.LoadScene("GameOver");
+        //Debug.Log("Character Destroyed");
+        //PlayerPrefs.SetString("CurrentLevel", SceneManager.GetActiveScene().name);
+        //Destroy(gameObject);
+        //SceneManager.LoadScene("GameOver");
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 }
