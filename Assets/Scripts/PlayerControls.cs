@@ -47,6 +47,11 @@ public class PlayerControls : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(!sr.isVisible)
+        {
+            OnBecameInvisible();
+        }
+
         float horzMove = getHorizontalInput();
         Vector2 vect = rb.velocity;
 
@@ -197,7 +202,7 @@ public class PlayerControls : MonoBehaviour
     {
         //Debug.Log("Character Destroyed");
         //PlayerPrefs.SetString("CurrentLevel", SceneManager.GetActiveScene().name);
-        //Destroy(gameObject);
+        Destroy(gameObject);
         //SceneManager.LoadScene("GameOver");
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);

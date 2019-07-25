@@ -299,7 +299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd3c5361c14e7f545a8206cd9344bc98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraTarget: {fileID: 0}
+  cameraTarget: {fileID: 8453996532640740093}
   cameraSpeed: 2.5
   minX: -100
   minY: 0
@@ -714,6 +714,11 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4747906481038492161, guid: 3b88986086726a947852e59fe8dd941c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b88986086726a947852e59fe8dd941c, type: 3}
 --- !u!114 &2889774937654860656 stripped
@@ -828,6 +833,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8483206092566025195, guid: ee413a92d5d6c7a4da0e02d4be4ab84e,
+        type: 3}
+      propertyPath: jumpButton
+      value: 
+      objectReference: {fileID: 2889774937654860658}
+    - target: {fileID: 8483206092566025195, guid: ee413a92d5d6c7a4da0e02d4be4ab84e,
+        type: 3}
+      propertyPath: leftButton
+      value: 
+      objectReference: {fileID: 2889774937654860657}
+    - target: {fileID: 8483206092566025195, guid: ee413a92d5d6c7a4da0e02d4be4ab84e,
+        type: 3}
+      propertyPath: rightButton
+      value: 
+      objectReference: {fileID: 2889774937654860656}
     - target: {fileID: 8453996532090110325, guid: ee413a92d5d6c7a4da0e02d4be4ab84e,
         type: 3}
       propertyPath: m_Name
@@ -898,20 +918,11 @@ PrefabInstance:
       propertyPath: jumpButton
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 8483206092566025195, guid: ee413a92d5d6c7a4da0e02d4be4ab84e,
-        type: 3}
-      propertyPath: jumpButton
-      value: 
-      objectReference: {fileID: 2889774937654860658}
-    - target: {fileID: 8483206092566025195, guid: ee413a92d5d6c7a4da0e02d4be4ab84e,
-        type: 3}
-      propertyPath: leftButton
-      value: 
-      objectReference: {fileID: 2889774937654860657}
-    - target: {fileID: 8483206092566025195, guid: ee413a92d5d6c7a4da0e02d4be4ab84e,
-        type: 3}
-      propertyPath: rightButton
-      value: 
-      objectReference: {fileID: 2889774937654860656}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee413a92d5d6c7a4da0e02d4be4ab84e, type: 3}
+--- !u!4 &8453996532640740093 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7155265559781412731, guid: ee413a92d5d6c7a4da0e02d4be4ab84e,
+    type: 3}
+  m_PrefabInstance: {fileID: 8453996532640740092}
+  m_PrefabAsset: {fileID: 0}
